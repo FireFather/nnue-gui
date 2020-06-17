@@ -1,0 +1,174 @@
+/*
+  nnue-gui is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  nnue-gui is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// Microsoft Visual C++ generated resource script.
+//
+#include "windows.h"
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+MAIN DIALOGEX 100, 100, 600, 400
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NNUE GUI 1.0"
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    EDITTEXT        ID_OUTPUT,13,41,506,345,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VSCROLL | WS_HSCROLL
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,181,14,156,13
+    EDITTEXT        ID_UCI_NAME,182,15,154,12,ES_CENTER | NOT WS_BORDER
+    PUSHBUTTON      "Start",ID_START,533,218,55,12
+    PUSHBUTTON      "Stop",ID_STOP,533,236,55,12
+    PUSHBUTTON      "Exit",ID_EXIT,533,254,55,12
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,532,41,56,33
+    PUSHBUTTON      "Config",ID_CONFIG,532,179,56,12
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,532,122,56,50
+    EDITTEXT        ID_LOAD_NN,533,147,54,12,NOT WS_BORDER
+    EDITTEXT        ID_HASH,533,123,54,12,NOT WS_BORDER
+    EDITTEXT        ID_THREADS,533,135,54,12,NOT WS_BORDER
+    EDITTEXT        ID_LOG,533,159,54,12,NOT WS_BORDER
+END
+
+CONFIG DIALOGEX 0, 0, 539, 307
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Config"
+FONT 9, "Verdana", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,423,277,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,479,277,50,14
+    LTEXT           "Syzygy Path",-1,356,12,39,8
+    CONTROL         "",ID_ENGINE1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,26,8,8
+    CONTROL         "",ID_ENGINE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,77,8,8
+    CONTROL         "",ID_ENGINE3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,124,8,8
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,24,23,297,14
+    EDITTEXT        ID_ENGINE1_PATH,25,24,295,12,NOT WS_BORDER
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,25,74,297,14
+    EDITTEXT        ID_ENGINE2_PATH,26,75,295,12,NOT WS_BORDER
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,25,122,297,14
+    EDITTEXT        ID_ENGINE3_PATH,26,123,295,12,NOT WS_BORDER
+    EDITTEXT        ID_ENGINE1_TB_PATH,357,24,147,12,NOT WS_BORDER
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,357,74,149,14
+    EDITTEXT        ID_ENGINE2_TB_PATH,358,75,147,12,NOT WS_BORDER
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,357,122,149,14
+    EDITTEXT        ID_ENGINE3_TB_PATH,358,123,147,12,NOT WS_BORDER
+    PUSHBUTTON      "...",ID_ENGINE1_SELECT,324,24,21,12
+    PUSHBUTTON      "...",ID_ENGINE2_SELECT,325,75,21,12
+    PUSHBUTTON      "...",ID_ENGINE3_SELECT,325,123,21,12
+    PUSHBUTTON      "...",ID_ENGINE1_TB_SELECT,508,24,21,12
+    PUSHBUTTON      "...",ID_ENGINE2_TB_SELECT,509,74,21,12
+    PUSHBUTTON      "...",ID_ENGINE3_TB_SELECT,509,122,21,12
+    COMBOBOX        ID_HASH_CFG,33,254,34,160,CBS_DROPDOWN | WS_VSCROLL
+    COMBOBOX        ID_THREADS_CFG,33,277,34,160,CBS_DROPDOWN | WS_VSCROLL
+    LTEXT           "Hash",-1,12,256,18,8
+    LTEXT           "SMP",-1,12,278,18,8
+    LTEXT           "MBs",-1,72,258,18,8
+    LTEXT           "Threads",-1,72,278,28,8
+    CONTROL         " Load nn.bin",ID_LOAD_NN_CFG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,257,48,10
+    LTEXT           "Command Line",-1,12,157,48,8
+    LTEXT           "Learn",-1,24,109,19,8
+    LTEXT           "Gen Validation Data",-1,24,60,63,8
+    LTEXT           "Gen Training Data",-1,24,12,57,8
+    LTEXT           "Syzygy Path",-1,357,61,39,8
+    LTEXT           "Syzygy Path",-1,358,109,39,8
+    COMBOBOX        ID_COMMAND_CFG,12,170,519,160,CBS_DROPDOWN | WS_VSCROLL
+    CONTROL         "",-1,"Static",SS_ETCHEDFRAME,356,23,149,14
+    CONTROL         " Create Log",ID_LOG_CFG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,278,48,10
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    "MAIN", DIALOG
+    BEGIN
+    END
+
+    "CONFIG", DIALOG
+    BEGIN
+        RIGHTMARGIN, 530
+        BOTTOMMARGIN, 305
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+MAIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+CONFIG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
