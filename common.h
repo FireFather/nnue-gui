@@ -99,7 +99,6 @@ struct engine
 	short int is_ready;
 	short int is_thinking;
 	short int send; // -1=Nothing, 0=uci, 2=isready ...
-	int id;
 	char name[2048];
 	char path[MAX_FILE_PATH];
 	char tb_path[MAX_FILE_PATH];
