@@ -28,11 +28,14 @@
 
 // main window
 #define ID_UCI_NAME 500
-#define ID_OUTPUT 501
-#define ID_CONFIG 502
-#define ID_START 503
-#define ID_STOP 504
-#define ID_EXIT 505
+#define ID_STATUS 501
+#define ID_OUTPUT 502
+#define ID_CONFIG 503
+#define ID_START 504
+#define ID_STOP 505
+#define ID_EXIT 506
+#define ID_BMP 507
+#define ID_LOGO 508
 
 // report config
 #define ID_HASH 600
@@ -47,23 +50,11 @@
 #define ID_COMMAND_CFG 703
 #define ID_LOG_CFG 704
 
-#define ID_ENGINE1 1000
-#define ID_ENGINE1_PATH 1002
-#define ID_ENGINE1_SELECT 1003
-#define ID_ENGINE1_TB_PATH 1004
-#define ID_ENGINE1_TB_SELECT 1005
-
-#define ID_ENGINE2 2000
-#define ID_ENGINE2_PATH 2002
-#define ID_ENGINE2_SELECT 2003
-#define ID_ENGINE2_TB_PATH 2004
-#define ID_ENGINE2_TB_SELECT 2005
-
-#define ID_ENGINE3 3000
-#define ID_ENGINE3_PATH 3002
-#define ID_ENGINE3_SELECT 3003
-#define ID_ENGINE3_TB_PATH 3004
-#define ID_ENGINE3_TB_SELECT 3005
+#define ID_ENGINE 1000
+#define ID_ENGINE_PATH 1002
+#define ID_ENGINE_SELECT 1003
+#define ID_ENGINE_TB_PATH 1004
+#define ID_ENGINE_TB_SELECT 1005
 
 // Defines
 #define RET_O 0
@@ -71,13 +62,10 @@
 #define MAX_FILE_PATH 1024
 #define MAX_COMMAND 1024
 #define MAX_BUFFER 16384
-#define MAX_ENGINES 3
 #define MIN_HASH 16
 #define MAX_HASH 8192
 #define MIN_THREADS 1
 #define MAX_THREADS 64
-
-#define FEN_START "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // Start FEN Notation
 
 // Enums
 enum status
@@ -103,14 +91,14 @@ struct engine_config
 	int log;
 	char command[MAX_COMMAND];
 	short int infinite;
-	short int auto_play; // 1=ENGINE1, 2=ENGINE2, 3=ENGINE3
 };
 
 struct engine
 {
 	short int is_running;
 	short int is_ready;
-	short int send; // -1=Nothing, 0=uci, 1=id name, 2=bestmove, 3=isready ...
+	short int is_thinking;
+	short int send; // -1=Nothing, 0=uci, 2=isready ...
 	int id;
 	char name[2048];
 	char path[MAX_FILE_PATH];
@@ -128,23 +116,20 @@ struct engine
 	HANDLE read_in;
 };
 
-
 // GLOBALS
 HINSTANCE inst;
 HWND h_main;
 HWND config;
 struct engine_config engine_config;
-struct engine engine[MAX_ENGINES];
+struct engine engine;
 char app_path[MAX_FILE_PATH];
 
 /*** config.c ***/
 BOOL APIENTRY dlg_proc_engines(HWND h_dlg, UINT u_msg, WPARAM w_param, LPARAM l_param);
-void select_engine(int dialog_id, int id);
-void select_engine_tb(int dialog_id, int id);
+void select_engine(int dialog_id);
+void select_engine_tb(int dialog_id);
 void get_engine_config();
-short int load_engine(int id);
-void get_engine_auto_play();
-void set_engine_auto_play(short int id);
+short int load_engine();
 void save_config();
 void load_config();
 void report_engine_config();
@@ -152,13 +137,11 @@ void set_config_values();
 
 /*** engine.c ***/
 DWORD WINAPI start_engine(LPVOID arg);
-void stop_engine_running(int id);
-void stop_all_engines_running();
-void set_ui_engine_info(int id, char* msg);
+void stop_engine_running();
+void set_ui_engine_info(char* msg);
 DWORD WINAPI start_engine_thinking(LPVOID arg);
 void start_thinking();
-void stop_thinking();
-void stop_engine_thinking(int id);
+void stop_engine();
 
 /*** main.c ***/
 BOOL APIENTRY dlg_proc(HWND h_dlg, UINT u_msg, WPARAM w_param, LPARAM l_param);
@@ -170,7 +153,7 @@ int read_file_line(FILE* fp, char* buf, int buf_len);
 int str_is_int(char* str);
 
 /*** uci.c ***/
-short int send_uci_engine(int id, char* cmd, short int send);
-short int send_uci(struct engine* engine, int id);
+short int send_uci_engine(char* cmd, short int send);
+short int send_uci(struct engine* engine);
 short int send_is_ready(struct engine* engine);
 

@@ -18,42 +18,39 @@
 short int init_engines()
 {
 	// Init ENGINE
-	for (int i = 0; i < MAX_ENGINES; i++)
-	{
-		engine[i].is_running = 0;
-		engine[i].is_ready = 0;
-		engine[i].send = -1;
-		engine[i].id = i;
-		memset(engine[i].path, 0, MAX_FILE_PATH);
-		memset(engine[i].tb_path, 0, MAX_FILE_PATH);
-		memset(engine[i].buffer, 0, MAX_BUFFER);
-		engine[i].send_buf = NULL;
-		engine[i].send_buf_len = 0;
-		ZeroMemory(&engine[i].proc_info, sizeof(PROCESS_INFORMATION));
-		engine[i].thread = NULL;
-		engine[i].thread_think = NULL;
-		engine[i].write_out = NULL;
-		engine[i].read_out = NULL;
-		engine[i].write_in = NULL;
-		engine[i].read_in = NULL;
-	}
+
+	engine.is_running = 0;
+	engine.is_ready = 0;
+	engine.is_thinking = 0;
+	engine.send = -1;
+	engine.id = 0;
+	memset(engine.path, 0, MAX_FILE_PATH);
+	memset(engine.tb_path, 0, MAX_FILE_PATH);
+	memset(engine.buffer, 0, MAX_BUFFER);
+	engine.send_buf = NULL;
+	engine.send_buf_len = 0;
+	ZeroMemory(&engine.proc_info, sizeof(PROCESS_INFORMATION));
+	engine.thread = NULL;
+	engine.thread_think = NULL;
+	engine.write_out = NULL;
+	engine.read_out = NULL;
+	engine.write_in = NULL;
+	engine.read_in = NULL;
 	return RET_O;
+
 }
 
 short int load_engine(const int id)
 {
-	if (id < 0 || id > MAX_ENGINES - 1)
-		return RET_E;
-
 	// Stop ENGINE
-	if (engine[id].is_running == 1)
+	if (engine.is_running == 1)
 		stop_engine_running(id);
 
 	// Start ENGINE Thread
-	if (strlen(engine[id].path) == 0 || file_exists(engine[id].path) == RET_E)
+	if (strlen(engine.path) == 0 || file_exists(engine.path) == RET_E)
 		return RET_E;
 
-	if ((engine[id].thread = CreateThread(NULL, 0, start_engine, (LPVOID)&engine[id], 0, NULL)) == NULL)
+	if ((engine.thread = CreateThread(NULL, 0, start_engine, (LPVOID)&engine, 0, NULL)) == NULL)
 	{
 		MessageBox(h_main, "Can't create engine thread", "Error", MB_OK | MB_ICONERROR);
 		return RET_E;
@@ -69,6 +66,7 @@ DWORD WINAPI start_engine(const LPVOID arg)
 	DWORD read;
 
 	engine->is_running = 1;
+	SetDlgItemText(h_main, ID_STATUS, "ready");
 
 	// Check ENGINE Path
 	if (strlen(engine->path) == 0 || file_exists(engine->path) == RET_E)
@@ -127,7 +125,7 @@ DWORD WINAPI start_engine(const LPVOID arg)
 	}
 
 	// Start UCI
-	if (send_uci_engine(engine->id, "uci\r\n", 0) == RET_E)
+	if (send_uci_engine("uci\r\n", 0) == RET_E)
 		goto stopEngineThread;
 
 	// Start Read Process Loop
@@ -151,14 +149,14 @@ DWORD WINAPI start_engine(const LPVOID arg)
 		engine->send_buf = (char*)realloc((char*)engine->send_buf, sizeof(char) * engine->send_buf_len);
 		strcat(engine->send_buf, engine->buffer);
 
-		set_ui_engine_info(engine->id, engine->buffer);
+		set_ui_engine_info(engine->buffer);
 
 		// Check From Results
 		switch (engine->send)
 		{
 		case 0:
 			// uci (uciok)
-			if (send_uci(engine, engine->id) == RET_E)
+			if (send_uci(engine) == RET_E)
 			{
 				MessageBox(h_main, "Invalid uciok parsing", "Error", MB_OK | MB_ICONERROR);
 				goto stopEngineThread;
@@ -183,80 +181,82 @@ DWORD WINAPI start_engine(const LPVOID arg)
 stopEngineThread:
 	// End Thread
 	if (engine->is_running == 1)
-		stop_engine_running(engine->id);
+		stop_engine_running();
 	return 0;
 }
 
-void stop_engine_running(const int id)
+void stop_engine_running()
 {
-	engine[id].is_running = 0;
-	engine[id].is_ready = 0;
+	engine.is_running = 0;
+	engine.is_ready = 0;
+	engine.is_thinking = 0;
+	SetDlgItemText(h_main, ID_STATUS, "stopped");
 
 	// Stop ENGINE Thread Think
-	if (engine[id].thread_think != NULL)
+	if (engine.thread_think != NULL)
 	{
-		TerminateThread(engine[id].thread_think, 0);
-		CloseHandle(engine[id].thread_think);
-		engine[id].thread_think = NULL;
+		TerminateThread(engine.thread_think, 0);
+		CloseHandle(engine.thread_think);
+		engine.thread_think = NULL;
 	}
 
 	// Stop ENGINE Thread
-	if (engine[id].thread != NULL)
+	if (engine.thread != NULL)
 	{
-		TerminateThread(engine[id].thread, 0);
-		CloseHandle(engine[id].thread);
-		engine[id].thread = NULL;
+		TerminateThread(engine.thread, 0);
+		CloseHandle(engine.thread);
+		engine.thread = NULL;
 	}
 
 	// Stop Process
-	if (engine[id].proc_info.hProcess)
+	if (engine.proc_info.hProcess)
 	{
-		TerminateProcess(engine[id].proc_info.hProcess, 0);
+		TerminateProcess(engine.proc_info.hProcess, 0);
 		// Close ENGINE Proc Handles
-		CloseHandle(engine[id].proc_info.hProcess);
-		CloseHandle(engine[id].proc_info.hThread);
+		CloseHandle(engine.proc_info.hProcess);
+		CloseHandle(engine.proc_info.hThread);
 	}
-	ZeroMemory(&engine[id].proc_info, sizeof(PROCESS_INFORMATION));
+	ZeroMemory(&engine.proc_info, sizeof(PROCESS_INFORMATION));
 
 	// Close Handles
-	if (engine[id].write_out != NULL)
+	if (engine.write_out != NULL)
 	{
-		CloseHandle(engine[id].write_out);
-		engine[id].write_out = NULL;
+		CloseHandle(engine.write_out);
+		engine.write_out = NULL;
 	}
 
-	if (engine[id].read_out != NULL)
+	if (engine.read_out != NULL)
 	{
-		CloseHandle(engine[id].read_out);
-		engine[id].read_out = NULL;
+		CloseHandle(engine.read_out);
+		engine.read_out = NULL;
 	}
 
-	if (engine[id].write_in != NULL)
+	if (engine.write_in != NULL)
 	{
-		CloseHandle(engine[id].write_out);
-		engine[id].write_out = NULL;
+		CloseHandle(engine.write_out);
+		engine.write_out = NULL;
 	}
 
-	if (engine[id].read_in != NULL)
+	if (engine.read_in != NULL)
 	{
-		CloseHandle(engine[id].read_in);
-		engine[id].read_in = NULL;
+		CloseHandle(engine.read_in);
+		engine.read_in = NULL;
 	}
 	// Clean
-	memset(engine[id].path, 0, MAX_FILE_PATH);
-	memset(engine[id].tb_path, 0, MAX_FILE_PATH);
-	memset(engine[id].buffer, 0, MAX_BUFFER);
+	memset(engine.path, 0, MAX_FILE_PATH);
+	memset(engine.tb_path, 0, MAX_FILE_PATH);
+	memset(engine.buffer, 0, MAX_BUFFER);
 
-	if (engine[id].send_buf != NULL)
+	if (engine.send_buf != NULL)
 	{
-		free(engine[id].send_buf);
-		engine[id].send_buf = NULL;
+		free(engine.send_buf);
+		engine.send_buf = NULL;
 	}
-	engine[id].send_buf_len = 0;
-	engine[id].send = -1;
+	engine.send_buf_len = 0;
+	engine.send = -1;
 }
 
-void set_ui_engine_info(int id, char* msg)
+void set_ui_engine_info(char* msg)
 {
 	SetDlgItemText(h_main, ID_OUTPUT, msg);
 }
@@ -266,7 +266,7 @@ DWORD WINAPI start_engine_thinking(const LPVOID arg)
 	struct engine* engine = (struct engine*)arg;
 	char cmd[1024];
 
-	if (engine->is_running == 0 || engine->is_ready == 0)
+	if (engine->is_running == 0 || engine->is_ready == 0 || engine->is_thinking == 1)
 		goto stopThreadThink;
 
 	// Prepare Commands
@@ -274,11 +274,13 @@ DWORD WINAPI start_engine_thinking(const LPVOID arg)
 	sprintf(cmd, engine_config.command);
 
 	// Thinking
-	if (send_uci_engine(engine->id, cmd, -1) == RET_E)
+	if (send_uci_engine(cmd, -1) == RET_E)
 		stop_engine_running(engine->id);
 	else
 	{
-		if (send_uci_engine(engine->id, cmd, 2) == RET_E)
+		engine->is_thinking = 1;
+		SetDlgItemText(h_main, ID_STATUS, "running");
+		if (send_uci_engine(cmd, 2) == RET_E)
 			stop_engine_running(engine->id);
 	}
 stopThreadThink:
@@ -290,81 +292,18 @@ stopThreadThink:
 	return 0;
 }
 
-
-
 void start_thinking()
 {
-	switch (engine_config.auto_play)
+	if (engine.is_running == 1 && engine.is_ready == 1 && engine.is_thinking == 0)
 	{
-	case 0:
-		break;
-
-	case 1:
-		if (engine[0].is_running == 1 && engine[0].is_ready == 1)
-		{
-			if ((engine[0].thread_think = CreateThread(NULL, 0, start_engine_thinking, (LPVOID)&engine[0], 0, NULL)) == NULL)
-				MessageBox(h_main, "Can't create engine thread", "Error", MB_OK | MB_ICONERROR);
-		}
-		break;
-
-	case 2:
-		if (engine[1].is_running == 1 && engine[1].is_ready == 1)
-		{
-			if ((engine[1].thread_think = CreateThread(NULL, 0, start_engine_thinking, (LPVOID)&engine[1], 0, NULL)) == NULL)
-				MessageBox(h_main, "Can't create engine thread", "Error", MB_OK | MB_ICONERROR);
-		}
-		break;
-
-	case 3:
-		if (engine[2].is_running == 1 && engine[2].is_ready == 1)
-		{
-			if ((engine[2].thread_think = CreateThread(NULL, 0, start_engine_thinking, (LPVOID)&engine[2], 0, NULL)) == NULL)
-				MessageBox(h_main, "Can't create engine thread", "Error", MB_OK | MB_ICONERROR);
-		}
-		break;
-	default:;
+		if ((engine.thread_think = CreateThread(NULL, 0, start_engine_thinking, (LPVOID)&engine, 0, NULL)) == NULL)
+			MessageBox(h_main, "Can't create engine thread", "Error", MB_OK | MB_ICONERROR);
 	}
 }
 
-void stop_thinking()
-{
-	// ENGINE Stop Thinking
-	switch (engine_config.auto_play)
-	{
-	case 0:
-		break;
-
-	case 1:
-		stop_engine_thinking(0);
-		break;
-
-	case 2:
-		stop_engine_thinking(1);
-		break;
-
-	case 3:
-		stop_engine_thinking(2);
-		break;
-	default:;
-	}
-}
-
-void stop_engine_thinking(const int id)
+void stop_engine()
 {
 	// Stop Engine Thinking
-	if (engine[id].is_running == 1)
-		stop_engine_running(id);
-
-	load_config();
-	report_engine_config();
-}
-
-void stop_all_engines_running()
-{
-	// Stop ENGINE
-	for (int i = 0; i < MAX_ENGINES; i++)
-	{
-		if (engine[i].is_running == 1)
-			stop_engine_running(i);
-	}
+	if (engine.is_running == 1)
+		stop_engine_running();
 }

@@ -15,17 +15,17 @@
 
 #include "common.h"
 
-short int send_uci_engine(const int id, char* cmd, const short int send)
+short int send_uci_engine(char* cmd, const short int send)
 {
 	DWORD dw_written;
 	const int len = strlen(cmd);
 
-	if (engine[id].is_running == 0 || len < 3)
+	if (engine.is_running == 0 || len < 3)
 		return RET_E;
 
-	engine[id].send = send;
+	engine.send = send;
 
-	if (!WriteFile(engine[id].write_in, cmd, len, &dw_written, NULL) || dw_written != len)
+	if (!WriteFile(engine.write_in, cmd, len, &dw_written, NULL) || dw_written != len)
 	{
 		MessageBox(h_main, "Can't write to engine process", "Error", MB_OK | MB_ICONERROR);
 		return RET_E;
@@ -33,7 +33,7 @@ short int send_uci_engine(const int id, char* cmd, const short int send)
 	return RET_O;
 }
 
-short int send_uci(struct engine* engine, const int id)
+short int send_uci(struct engine* engine)
 {
 	char* info = NULL;
 	char tmp[128];
@@ -53,30 +53,13 @@ short int send_uci(struct engine* engine, const int id)
 			info++;
 
 		char* pos = strstr(info, "id author ");
-		char engine_name[256];
+		char engine_name[64];
+
+		memset(engine_name, 0, 64);
 		memcpy(engine_name, info, pos - info);
 
-		strcpy(engine[id].name, engine_name);
-
-		switch (engine_config.auto_play)
-		{
-		case 0:
-			SetDlgItemText(h_main, ID_UCI_NAME, "");
-			break;
-
-		case 1:
-			SetDlgItemText(h_main, ID_UCI_NAME, engine[0].name);
-			break;
-
-		case 3:
-			SetDlgItemText(h_main, ID_UCI_NAME, engine[1].name);
-			break;
-
-		case 5:
-			SetDlgItemText(h_main, ID_UCI_NAME, engine[2].name);
-			break;
-		default:;
-		}
+		strcpy(engine->name, engine_name);
+		SetDlgItemText(h_main, ID_UCI_NAME, engine->name);
 	}
 
 	// Re-init Buffer
@@ -92,19 +75,19 @@ short int send_uci(struct engine* engine, const int id)
 		sprintf(tmp, "setoption name Debug Log File value ""\r\n");
 	else
 		sprintf(tmp, "setoption name Debug Log File value nnue-gui.log\r\n");
-	if (send_uci_engine(engine->id, tmp, -1) == RET_E)
+	if (send_uci_engine(tmp, -1) == RET_E)
 		return RET_E;
 
 	// Threads
 	memset(tmp, 0, 128);
 	sprintf(tmp, "setoption name Threads value %d\r\n", engine_config.threads);
-	if (send_uci_engine(engine->id, tmp, -1) == RET_E)
+	if (send_uci_engine(tmp, -1) == RET_E)
 		return RET_E;
 
 	// Hash Size
 	memset(tmp, 0, 128);
 	sprintf(tmp, "setoption name Hash value %d\r\n", engine_config.hash);
-	if (send_uci_engine(engine->id, tmp, -1) == RET_E)
+	if (send_uci_engine(tmp, -1) == RET_E)
 		return RET_E;
 
 	// Load NN
@@ -113,37 +96,17 @@ short int send_uci(struct engine* engine, const int id)
 		sprintf(tmp, "setoption name SkipLoadingEval value true\r\n");
 	else
 		sprintf(tmp, "setoption name SkipLoadingEval value false\r\n");
-	if (send_uci_engine(engine->id, tmp, -1) == RET_E)
+	if (send_uci_engine(tmp, -1) == RET_E)
 		return RET_E;
 
 	// Syzygy Paths
-	switch (id)
-	{
-	case 0:
-		sprintf(tmp, "setoption name SyzygyPath value %s\r\n", engine[0].tb_path);
-
-		if (send_uci_engine(engine->id, tmp, -1) == RET_E)
-			return RET_E;
-		break;
-
-	case 1:
-		sprintf(tmp, "setoption name SyzygyPath value %s\r\n", engine[1].tb_path);
-
-		if (send_uci_engine(engine->id, tmp, -1) == RET_E)
-			return RET_E;
-		break;
-
-	case 2:
-		sprintf(tmp, "setoption name SyzygyPath value %s\r\n", engine[2].tb_path);
-
-		if (send_uci_engine(engine->id, tmp, -1) == RET_E)
-			return RET_E;
-		break;
-	default:;
-	}
+	memset(tmp, 0, 128);
+	sprintf(tmp, "setoption name SyzygyPath value %s\r\n", engine->tb_path);
+	if (send_uci_engine(tmp, -1) == RET_E)
+		return RET_E;
 
 	// Send isready
-	if (send_uci_engine(engine->id, "isready\r\n", 1) == RET_E)
+	if (send_uci_engine("isready\r\n", 1) == RET_E)
 		return RET_E;
 
 	return

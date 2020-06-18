@@ -56,13 +56,20 @@ short int init_app()
 
 BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param, LPARAM l_param)
 {
+	HBITMAP hBMP = 0;
+	HWND hBitmap = 0;
+
 	switch (u_msg)
 	{
 	case WM_INITDIALOG:
 		if (h_main == NULL)
-		{
 			h_main = h_dlg;
-		}
+
+		hBitmap = GetDlgItem(h_dlg, ID_LOGO);
+		hBMP = LoadBitmap(inst, MAKEINTRESOURCE(ID_BMP));
+		SendMessage(hBitmap, STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBMP);
+		ShowWindow(hBitmap, SW_SHOW);
+
 		load_config();
 		report_engine_config();
 		return TRUE;
@@ -71,7 +78,7 @@ BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param,
 		switch (LOWORD(w_param))
 		{
 		case ID_EXIT:
-			stop_all_engines_running();
+			stop_engine_running();
 			EndDialog(h_dlg, 0);
 			break;
 
@@ -86,7 +93,7 @@ BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param,
 			break;
 
 		case ID_STOP:
-			stop_thinking();
+			stop_engine();
 			break;
 		default:;
 		}
@@ -96,7 +103,7 @@ BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param,
 		return TRUE;
 
 	case WM_CLOSE:
-		stop_all_engines_running();
+		stop_engine_running();
 		EndDialog(h_dlg, 0);
 		return TRUE;
 
