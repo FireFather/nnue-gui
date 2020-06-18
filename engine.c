@@ -23,7 +23,6 @@ short int init_engines()
 	engine.is_ready = 0;
 	engine.is_thinking = 0;
 	engine.send = -1;
-	engine.id = 0;
 	memset(engine.path, 0, MAX_FILE_PATH);
 	memset(engine.tb_path, 0, MAX_FILE_PATH);
 	memset(engine.buffer, 0, MAX_BUFFER);
@@ -40,11 +39,11 @@ short int init_engines()
 
 }
 
-short int load_engine(const int id)
+short int load_engine()
 {
 	// Stop ENGINE
 	if (engine.is_running == 1)
-		stop_engine_running(id);
+		stop_engine_running();
 
 	// Start ENGINE Thread
 	if (strlen(engine.path) == 0 || file_exists(engine.path) == RET_E)
@@ -276,13 +275,13 @@ DWORD WINAPI start_engine_thinking(const LPVOID arg)
 
 	// Thinking
 	if (send_uci_engine(cmd, -1) == RET_E)
-		stop_engine_running(engine->id);
+		stop_engine_running();
 	else
 	{
 		engine->is_thinking = 1;
 		SetDlgItemText(h_main, ID_STATUS, "running");
 		if (send_uci_engine(cmd, 2) == RET_E)
-			stop_engine_running(engine->id);
+			stop_engine_running();
 	}
 stopThreadThink:
 	if (engine->thread_think != NULL)
