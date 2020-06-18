@@ -190,6 +190,7 @@ void stop_engine_running()
 	engine.is_running = 0;
 	engine.is_ready = 0;
 	engine.is_thinking = 0;
+
 	SetDlgItemText(h_main, ID_STATUS, "stopped");
 
 	// Stop ENGINE Thread Think

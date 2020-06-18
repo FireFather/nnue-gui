@@ -72,6 +72,8 @@ BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param,
 
 		load_config();
 		report_engine_config();
+
+		EnableWindow(GetDlgItem(h_main, ID_STOP), FALSE);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -90,10 +92,14 @@ BOOL APIENTRY dlg_proc(const HWND h_dlg, const UINT u_msg, const WPARAM w_param,
 
 		case ID_START:
 			start_thinking();
+			EnableWindow(GetDlgItem(h_main, ID_START), FALSE);
+			EnableWindow(GetDlgItem(h_main, ID_STOP), TRUE);
 			break;
 
 		case ID_STOP:
 			stop_engine();
+			EnableWindow(GetDlgItem(h_main, ID_START), TRUE);
+			EnableWindow(GetDlgItem(h_main, ID_STOP), FALSE);
 			break;
 		default:;
 		}
