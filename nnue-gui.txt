@@ -1,9 +1,14 @@
 
-nnue-gui.exe is a basic windows app for using nodchip's stockfish-nnue software:
-https://github.com/nodchip/Stockfish
+This is a basic tool/aid for training and creating stockfish-nnue eval networks (nn.bin).
+
+nnue-gui.exe is a basic windows app for using my fork
+https://github.com/FireFather/Stockfish-nnue
+of nodchip's stockfish-nnue software:
 https://github.com/nodchip/Stockfish/releases
 
-The most recent binaries of which are included in this release.
+Because of logic changes, version 1.2 no longer works with nodchip's software.
+
+The most recent binaries of FireFather/Stockfish-nnue are included in this release.
 
 nnue-gui can configure and control the different binaries needed to train and create training 
 data, validation data, and a nnue network to be used when running as a UCI engine.
@@ -13,7 +18,7 @@ This verson of nnue-gui supports the following UCI engine options:
 
 Hash
 Threads
-SkipLoadingEval
+LoadEval
 and
 Log (which can write all input/output to nnue-gui.log)
 
@@ -28,7 +33,7 @@ some knowledge about NN training is helpful.
 
 Settings, exe and syzygy paths, commandlines, etc. are stored in a plain text file called engine.config.
 
-This is version 1.0, and has been not widely tested.
+This is version 1.2, and has been not widely tested.
 Please let me know of any issues.
 
 Best Regards,
