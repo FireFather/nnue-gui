@@ -90,7 +90,7 @@ short int send_uci(struct engine* engine)
 	if (send_uci_engine(tmp, -1) == RET_E)
 		return RET_E;
 
-	// Load NN
+	// Load Eval
 	memset(tmp, 0, 128);
 	if (engine_config.load_eval == 1)
 		sprintf(tmp, "setoption name LoadEval value true\r\n");

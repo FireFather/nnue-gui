@@ -57,7 +57,7 @@ BOOL APIENTRY dlg_proc_engines(const HWND h_dlg, const UINT u_msg, const WPARAM 
 			break;
 
 		case ID_LOAD_EVAL_CFG:
-			// ENGINE Load nn.bin
+			// ENGINE Load Eval
 			if (IsDlgButtonChecked(config, ID_LOAD_EVAL_CFG) == BST_CHECKED)
 				engine_config.load_eval = 1;
 			else
@@ -310,7 +310,7 @@ void load_config()
 			}
 			break;
 		case 2:
-			// Load NN
+			// Load Eval
 			if ((engine_config.load_eval = str_is_int(line)) == RET_E
 				|| engine_config.load_eval != 0 && engine_config.load_eval != 1)
 				engine_config.load_eval = 0;
