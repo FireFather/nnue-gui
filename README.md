@@ -5,7 +5,7 @@ https://github.com/FireFather/Stockfish-nnue
 of nodchip's stockfish-nnue software:
 https://github.com/nodchip/Stockfish/releases
 
-Because of logic changes, version 1.2 no longer work with nodchip's sodtware.
+Because of logic changes, version 1.2 no longer works with nodchip's software.
 
 It's a basic GUI to keep track of settings, paths, UCI options, command line parameters, etc.
 It will also launch the various binaries needed for all 3 phases: gen training data, gen validation data,
