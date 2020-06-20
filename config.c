@@ -56,12 +56,12 @@ BOOL APIENTRY dlg_proc_engines(const HWND h_dlg, const UINT u_msg, const WPARAM 
 				get_engine_config();
 			break;
 
-		case ID_LOAD_NN_CFG:
-			// ENGINE Load_nn.bin
-			if (IsDlgButtonChecked(config, ID_LOAD_NN_CFG) == BST_CHECKED)
-				engine_config.load_nn = 1;
+		case ID_LOAD_EVAL_CFG:
+			// ENGINE Load nn.bin
+			if (IsDlgButtonChecked(config, ID_LOAD_EVAL_CFG) == BST_CHECKED)
+				engine_config.load_eval = 1;
 			else
-				engine_config.load_nn = 0;
+				engine_config.load_eval = 0;
 			break;
 
 		case ID_LOG_CFG:
@@ -210,7 +210,7 @@ void save_config()
 	}
 	fprintf(fp, "%d\n", engine_config.hash);
 	fprintf(fp, "%d\n", engine_config.threads);
-	fprintf(fp, "%d\n", engine_config.load_nn);
+	fprintf(fp, "%d\n", engine_config.load_eval);
 	fprintf(fp, "%d\n", engine_config.log);
 
 	memset(engine_path, 0, MAX_FILE_PATH);
@@ -258,7 +258,7 @@ void load_config()
 	{
 		engine_config.hash = 16;
 		engine_config.threads = 1;
-		engine_config.load_nn = 1;
+		engine_config.load_eval = 1;
 		engine_config.log = 1;
 		return;
 	}
@@ -311,14 +311,14 @@ void load_config()
 			break;
 		case 2:
 			// Load NN
-			if ((engine_config.load_nn = str_is_int(line)) == RET_E
-				|| engine_config.load_nn != 0 && engine_config.load_nn != 1)
-				engine_config.load_nn = 0;
+			if ((engine_config.load_eval = str_is_int(line)) == RET_E
+				|| engine_config.load_eval != 0 && engine_config.load_eval != 1)
+				engine_config.load_eval = 0;
 
-			if (engine_config.load_nn == 1)
-				CheckDlgButton(config, ID_LOAD_NN_CFG, BST_CHECKED);
+			if (engine_config.load_eval == 1)
+				CheckDlgButton(config, ID_LOAD_EVAL_CFG, BST_CHECKED);
 			else
-				CheckDlgButton(config, ID_LOAD_NN_CFG, BST_UNCHECKED);
+				CheckDlgButton(config, ID_LOAD_EVAL_CFG, BST_UNCHECKED);
 			break;
 
 		case 3:
@@ -390,12 +390,12 @@ void report_engine_config()
 
 	char hash[16];
 	char threads[16];
-	char load_nn[16];
+	char load_eval[16];
 	char log[16];
 
 	memset(hash, 0, 16);
 	memset(threads, 0, 16);
-	memset(load_nn, 0, 16);
+	memset(load_eval, 0, 16);
 	memset(log, 0, 16);
 
 	itoa(engine_config.hash, tmp, 10);
@@ -409,10 +409,10 @@ void report_engine_config()
 	strcat(threads, tmp);
 	SetDlgItemText(h_main, ID_THREADS, threads);
 
-	itoa(engine_config.load_nn, tmp, 10);
-	sprintf(load_nn, "%s", "Load NN ");
-	strcat(load_nn, tmp);
-	SetDlgItemText(h_main, ID_LOAD_NN, load_nn);
+	itoa(engine_config.load_eval, tmp, 10);
+	sprintf(load_eval, "%s", "Load Eval ");
+	strcat(load_eval, tmp);
+	SetDlgItemText(h_main, ID_LOAD_EVAL, load_eval);
 
 	itoa(engine_config.log, tmp, 10);
 	sprintf(log, "%s", "Log ");
