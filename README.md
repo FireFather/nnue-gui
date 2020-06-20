@@ -2,6 +2,7 @@
 This is a basic tool/aid for training and creating stockfish-nnue eval networks (nn.bin)
 using my fork
 https://github.com/FireFather/Stockfish-nnue
+
 of nodchip's stockfish-nnue software:
 https://github.com/nodchip/Stockfish/releases
 
