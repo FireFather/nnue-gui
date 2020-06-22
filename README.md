@@ -1,9 +1,9 @@
 # nnue-gui
 This is a basic tool/aid for training and creating stockfish-nnue eval networks (nn.bin)
-using my fork
-https://github.com/FireFather/Stockfish-nnue
-of nodchip's stockfish-nnue software:
+using nodchip's stockfish-nnue software:
 https://github.com/nodchip/Stockfish/releases
+or my c++17 fork
+https://github.com/FireFather/Stockfish-nnue
 
 It's a basic GUI to keep track of settings, paths, UCI options, command line parameters, etc.
 It will also launch the various binaries needed for all 3 phases: gen training data, gen validation data,
