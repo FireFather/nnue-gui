@@ -59,9 +59,9 @@ BOOL APIENTRY dlg_proc_engines(const HWND h_dlg, const UINT u_msg, const WPARAM 
 		case ID_LOAD_EVAL_CFG:
 			// ENGINE Load Eval
 			if (IsDlgButtonChecked(config, ID_LOAD_EVAL_CFG) == BST_CHECKED)
-				engine_config.load_eval = 1;
+				engine_config.skip_loading_eval = 1;
 			else
-				engine_config.load_eval = 0;
+				engine_config.skip_loading_eval = 0;
 			break;
 
 		case ID_LOG_CFG:
@@ -210,7 +210,7 @@ void save_config()
 	}
 	fprintf(fp, "%d\n", engine_config.hash);
 	fprintf(fp, "%d\n", engine_config.threads);
-	fprintf(fp, "%d\n", engine_config.load_eval);
+	fprintf(fp, "%d\n", engine_config.skip_loading_eval);
 	fprintf(fp, "%d\n", engine_config.log);
 
 	memset(engine_path, 0, MAX_FILE_PATH);
@@ -258,7 +258,7 @@ void load_config()
 	{
 		engine_config.hash = 16;
 		engine_config.threads = 1;
-		engine_config.load_eval = 1;
+		engine_config.skip_loading_eval = 1;
 		engine_config.log = 1;
 		return;
 	}
@@ -311,11 +311,11 @@ void load_config()
 			break;
 		case 2:
 			// Load Eval
-			if ((engine_config.load_eval = str_is_int(line)) == RET_E
-				|| engine_config.load_eval != 0 && engine_config.load_eval != 1)
-				engine_config.load_eval = 0;
+			if ((engine_config.skip_loading_eval = str_is_int(line)) == RET_E
+				|| engine_config.skip_loading_eval != 0 && engine_config.skip_loading_eval != 1)
+				engine_config.skip_loading_eval = 0;
 
-			if (engine_config.load_eval == 1)
+			if (engine_config.skip_loading_eval == 1)
 				CheckDlgButton(config, ID_LOAD_EVAL_CFG, BST_CHECKED);
 			else
 				CheckDlgButton(config, ID_LOAD_EVAL_CFG, BST_UNCHECKED);
@@ -390,12 +390,12 @@ void report_engine_config()
 
 	char hash[16];
 	char threads[16];
-	char load_eval[16];
+	char skip_loading_eval[16];
 	char log[16];
 
 	memset(hash, 0, 16);
 	memset(threads, 0, 16);
-	memset(load_eval, 0, 16);
+	memset(skip_loading_eval, 0, 16);
 	memset(log, 0, 16);
 
 	itoa(engine_config.hash, tmp, 10);
@@ -409,10 +409,13 @@ void report_engine_config()
 	strcat(threads, tmp);
 	SetDlgItemText(h_main, ID_THREADS, threads);
 
-	itoa(engine_config.load_eval, tmp, 10);
-	sprintf(load_eval, "%s", "Load Eval ");
-	strcat(load_eval, tmp);
-	SetDlgItemText(h_main, ID_LOAD_EVAL, load_eval);
+	itoa(engine_config.skip_loading_eval, tmp, 10);
+	sprintf(skip_loading_eval, "%s", "Load Eval ");
+	if (engine_config.skip_loading_eval == 1)
+		strcat(skip_loading_eval, "0");
+	else
+		strcat(skip_loading_eval, "1");
+	SetDlgItemText(h_main, ID_SKIP_LOADING_EVAL, skip_loading_eval);
 
 	itoa(engine_config.log, tmp, 10);
 	sprintf(log, "%s", "Log ");
@@ -424,9 +427,9 @@ void set_config_values()
 {
 	// Set ENGINE Config
 
-	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 0, (LPARAM)TEXT("gensfen depth 8 loop 10000000 output_file_name trainingdata\\generated_kifu.bin"));
-	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 1, (LPARAM)TEXT("gensfen depth 8 loop 1000000 output_file_name validationdata\\generated_kifu.bin"));
-	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 2, (LPARAM)TEXT("learn targetdir trainingdata loop 100 batchsize 1000000 eta 1.0 lambda 0.5 eval_limit 32000 nn_batch_size 1000 newbob_decay 0.5 eval_save_interval 10000000 loss_output_interval 1000000 mirror_percentage 50 validation_set_file_name validationdata\\generated_kifu.bin"));
+	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 0, (LPARAM)TEXT("gensfen depth 8 loop 10000000 output_file_name training\\data.bin"));
+	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 1, (LPARAM)TEXT("gensfen depth 8 loop 1000000 output_file_name validation\\data.bin"));
+	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_ADDSTRING, 2, (LPARAM)TEXT("learn targetdir training loop 100 batchsize 1000000 eta 1.0 lambda 0.5 eval_limit 32000 nn_batch_size 1000 newbob_decay 0.5 eval_save_interval 10000000 loss_output_interval 1000000 mirror_percentage 50 validation_set_file_name validation\\data.bin"));
 	SendDlgItemMessage(config, ID_COMMAND_CFG, CB_SETCURSEL, 0, 0);
 
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 0, (LPARAM)TEXT("16"));

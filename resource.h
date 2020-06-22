@@ -18,13 +18,13 @@
 // report config
 #define ID_HASH 600
 #define ID_THREADS 601
-#define ID_LOAD_NN 602
+#define ID_SKIP_LOADING_EVAL 602
 #define ID_LOG 603
 
 // config
 #define ID_HASH_CFG 700
 #define ID_THREADS_CFG 701
-#define ID_LOAD_NN_CFG 702
+#define ID_SKIP_LOADING_EVAL_CFG 702
 #define ID_COMMAND_CFG 703
 #define ID_LOG_CFG 704
 

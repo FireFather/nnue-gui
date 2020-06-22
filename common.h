@@ -40,7 +40,7 @@
 // report config
 #define ID_HASH 600
 #define ID_THREADS 601
-#define ID_LOAD_EVAL 602
+#define ID_SKIP_LOADING_EVAL 602
 #define ID_LOG 603
 
 // config
@@ -87,7 +87,7 @@ struct engine_config
 {
 	int hash;
 	int threads;
-	int load_eval;
+	int skip_loading_eval;
 	int log;
 	char command[MAX_COMMAND];
 	short int infinite;
