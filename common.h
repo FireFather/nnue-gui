@@ -63,7 +63,7 @@
 #define MAX_COMMAND 1024
 #define MAX_BUFFER 16384
 #define MIN_HASH 16
-#define MAX_HASH 8192
+#define MAX_HASH 65536
 #define MIN_THREADS 1
 #define MAX_THREADS 64
 

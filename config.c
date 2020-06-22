@@ -441,6 +441,7 @@ void set_config_values()
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 9, (LPARAM)TEXT("8192"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 10, (LPARAM)TEXT("16384"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 11, (LPARAM)TEXT("32768"));
+	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 12, (LPARAM)TEXT("65536"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_SETCURSEL, 0, 0);
 
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 0, (LPARAM)TEXT("1"));
