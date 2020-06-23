@@ -186,6 +186,9 @@ stopEngineThread:
 
 void stop_engine_running()
 {
+	EnableWindow(GetDlgItem(h_main, ID_START), TRUE);
+	EnableWindow(GetDlgItem(h_main, ID_STOP), FALSE);
+
 	engine.is_running = 0;
 	engine.is_ready = 0;
 	engine.is_thinking = 0;
@@ -280,8 +283,6 @@ DWORD WINAPI start_engine_thinking(const LPVOID arg)
 	{
 		engine->is_thinking = 1;
 		SetDlgItemText(h_main, ID_STATUS, "running");
-		if (send_uci_engine(cmd, 2) == RET_E)
-			stop_engine_running();
 	}
 stopThreadThink:
 	if (engine->thread_think != NULL)

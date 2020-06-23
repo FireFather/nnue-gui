@@ -202,7 +202,7 @@ void save_config()
 
 	memset(tmp, 0, MAX_FILE_PATH);
 
-	sprintf(tmp, "%sengine.cfg", app_path);
+	sprintf(tmp, "%snnue-gui.cfg", app_path);
 
 	if ((fp = fopen(tmp, "w")) == NULL)
 	{
@@ -252,7 +252,7 @@ void load_config()
 	int len;
 
 	memset(tmp, 0, MAX_FILE_PATH);
-	sprintf(tmp, "%sengine.cfg", app_path);
+	sprintf(tmp, "%snnue-gui.cfg", app_path);
 
 	if ((fp = fopen(tmp, "r")) == NULL)
 	{
@@ -445,6 +445,7 @@ void set_config_values()
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 10, (LPARAM)TEXT("16384"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 11, (LPARAM)TEXT("32768"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 12, (LPARAM)TEXT("65536"));
+	SendDlgItemMessage(config, ID_HASH_CFG, CB_ADDSTRING, 13, (LPARAM)TEXT("131072"));
 	SendDlgItemMessage(config, ID_HASH_CFG, CB_SETCURSEL, 0, 0);
 
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 0, (LPARAM)TEXT("1"));
@@ -463,6 +464,118 @@ void set_config_values()
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 13, (LPARAM)TEXT("14"));
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 14, (LPARAM)TEXT("15"));
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 15, (LPARAM)TEXT("16"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 16, (LPARAM)TEXT("17"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 17, (LPARAM)TEXT("18"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 18, (LPARAM)TEXT("19"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 19, (LPARAM)TEXT("20"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 20, (LPARAM)TEXT("21"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 21, (LPARAM)TEXT("22"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 22, (LPARAM)TEXT("23"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 23, (LPARAM)TEXT("24"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 24, (LPARAM)TEXT("25"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 25, (LPARAM)TEXT("26"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 26, (LPARAM)TEXT("27"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 27, (LPARAM)TEXT("28"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 28, (LPARAM)TEXT("29"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 29, (LPARAM)TEXT("30"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 30, (LPARAM)TEXT("31"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 31, (LPARAM)TEXT("32"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 32, (LPARAM)TEXT("33"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 33, (LPARAM)TEXT("34"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 34, (LPARAM)TEXT("35"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 35, (LPARAM)TEXT("36"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 36, (LPARAM)TEXT("37"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 37, (LPARAM)TEXT("38"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 38, (LPARAM)TEXT("39"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 39, (LPARAM)TEXT("40"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 40, (LPARAM)TEXT("41"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 41, (LPARAM)TEXT("42"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 42, (LPARAM)TEXT("43"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 43, (LPARAM)TEXT("44"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 44, (LPARAM)TEXT("45"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 45, (LPARAM)TEXT("46"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 46, (LPARAM)TEXT("47"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 47, (LPARAM)TEXT("48"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 48, (LPARAM)TEXT("49"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 49, (LPARAM)TEXT("50"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 50, (LPARAM)TEXT("51"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 51, (LPARAM)TEXT("52"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 52, (LPARAM)TEXT("53"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 53, (LPARAM)TEXT("54"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 54, (LPARAM)TEXT("55"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 55, (LPARAM)TEXT("56"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 56, (LPARAM)TEXT("57"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 57, (LPARAM)TEXT("58"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 58, (LPARAM)TEXT("59"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 59, (LPARAM)TEXT("60"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 60, (LPARAM)TEXT("61"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 61, (LPARAM)TEXT("62"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 62, (LPARAM)TEXT("63"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 63, (LPARAM)TEXT("64"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 64, (LPARAM)TEXT("65"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 65, (LPARAM)TEXT("66"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 66, (LPARAM)TEXT("67"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 67, (LPARAM)TEXT("68"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 68, (LPARAM)TEXT("69"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 69, (LPARAM)TEXT("70"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 70, (LPARAM)TEXT("71"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 71, (LPARAM)TEXT("72"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 72, (LPARAM)TEXT("73"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 73, (LPARAM)TEXT("74"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 74, (LPARAM)TEXT("75"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 75, (LPARAM)TEXT("76"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 76, (LPARAM)TEXT("77"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 77, (LPARAM)TEXT("78"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 78, (LPARAM)TEXT("79"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 79, (LPARAM)TEXT("80"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 80, (LPARAM)TEXT("81"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 81, (LPARAM)TEXT("82"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 82, (LPARAM)TEXT("83"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 83, (LPARAM)TEXT("84"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 84, (LPARAM)TEXT("85"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 85, (LPARAM)TEXT("86"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 86, (LPARAM)TEXT("87"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 87, (LPARAM)TEXT("88"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 88, (LPARAM)TEXT("89"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 89, (LPARAM)TEXT("90"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 90, (LPARAM)TEXT("91"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 91, (LPARAM)TEXT("92"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 92, (LPARAM)TEXT("93"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 93, (LPARAM)TEXT("94"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 94, (LPARAM)TEXT("95"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 95, (LPARAM)TEXT("96"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 96, (LPARAM)TEXT("97"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 97, (LPARAM)TEXT("98"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 98, (LPARAM)TEXT("99"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 99, (LPARAM)TEXT("100"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 100, (LPARAM)TEXT("101"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 101, (LPARAM)TEXT("102"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 102, (LPARAM)TEXT("103"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 103, (LPARAM)TEXT("104"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 104, (LPARAM)TEXT("105"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 105, (LPARAM)TEXT("106"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 106, (LPARAM)TEXT("107"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 107, (LPARAM)TEXT("108"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 108, (LPARAM)TEXT("109"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 109, (LPARAM)TEXT("110"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 110, (LPARAM)TEXT("111"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 111, (LPARAM)TEXT("112"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 112, (LPARAM)TEXT("113"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 113, (LPARAM)TEXT("114"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 114, (LPARAM)TEXT("115"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 115, (LPARAM)TEXT("116"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 116, (LPARAM)TEXT("117"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 117, (LPARAM)TEXT("118"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 118, (LPARAM)TEXT("119"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 119, (LPARAM)TEXT("120"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 120, (LPARAM)TEXT("121"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 121, (LPARAM)TEXT("122"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 122, (LPARAM)TEXT("123"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 123, (LPARAM)TEXT("124"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 124, (LPARAM)TEXT("125"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 125, (LPARAM)TEXT("126"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 126, (LPARAM)TEXT("127"));
+	SendDlgItemMessage(config, ID_THREADS_CFG, CB_ADDSTRING, 127, (LPARAM)TEXT("128"));
 	SendDlgItemMessage(config, ID_THREADS_CFG, CB_SETCURSEL, 0, 0);
 
 	// Set ENGINE Limits

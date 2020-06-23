@@ -67,22 +67,7 @@
 #define MIN_THREADS 1
 #define MAX_THREADS 64
 
-// Enums
-enum status
-{
-	status_none = 0,
-	status_check = 1,
-	status_won = 2,
-	status_checkmate = 3,
-	status_draw = 4,
-	status_draw_material = 5,
-	status_draw_50_moves = 6,
-	status_draw_3_fold_rep = 7,
-	status_resign = 8
-};
-
 // Structures
-
 struct engine_config
 {
 	int hash;
