@@ -278,7 +278,7 @@ void load_config()
 				|| engine_config.hash > MAX_HASH)
 				engine_config.hash = 64;
 
-			for (j = 0; j < 11; j++)
+			for (j = 0; j < 13; j++)
 			{
 				memset(val, 0, 8);
 				SendMessage(GetDlgItem(config, ID_HASH_CFG), CB_GETLBTEXT, (WPARAM)j, (LPARAM)val);
@@ -297,7 +297,7 @@ void load_config()
 				|| engine_config.threads > MAX_THREADS)
 				engine_config.threads = 1;
 
-			for (j = 0; j < 15; j++)
+			for (j = 0; j < 128; j++)
 			{
 				memset(val, 0, 8);
 				SendMessage(GetDlgItem(config, ID_THREADS_CFG), CB_GETLBTEXT, (WPARAM)j, (LPARAM)val);

@@ -63,9 +63,9 @@
 #define MAX_COMMAND 1024
 #define MAX_BUFFER 16384
 #define MIN_HASH 16
-#define MAX_HASH 65536
+#define MAX_HASH 131072
 #define MIN_THREADS 1
-#define MAX_THREADS 64
+#define MAX_THREADS 128
 
 // Structures
 struct engine_config
